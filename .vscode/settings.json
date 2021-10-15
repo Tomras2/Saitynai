@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/026582bd-6004-4bd6-b277-5e18623b3a49/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/SportProducts",
+    "appService.deploySubpath": "."
+}
