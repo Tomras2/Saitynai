@@ -6,37 +6,28 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(bodyParser.json({
     type: "*/*"
 }));
 
-const sportsRouter = require('./routes/sports')
-const clubsRouter = require('./routes/clubs')
-const productsRouter = require('./routes/products')
+// const sportsRouter = require('./routes/sports')
+// const clubsRouter = require('./routes/clubs')
+// const productsRouter = require('./routes/products')
 
 
-app.use("/api/sports", sportsRouter)
-app.use(clubsRouter)
-app.use(productsRouter)
+// app.use("/api/sports", sportsRouter)
+// app.use(clubsRouter)
+// app.use(productsRouter)
 
-const db = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password: '',
-    database : 'sportsdb'
-});
-
-db.connect((err) => {
-    if(err){
-        throw err;
-    }
-    console.log('MySql Connected...');
-});
 
 app.get('/', (req, res) => {
     res.send('Home page');
 });
+
+require("./routes/sports.js")(app);
+require("./routes/clubs.js")(app);
 
 
 app.all('*', function(req, res) {
