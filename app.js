@@ -1,9 +1,7 @@
-const Joi = require('joi');
 const express = require('express');
 const { countReset } = require('console');
 const app = express();
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -11,23 +9,34 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({
     type: "*/*"
 }));
+app.use(function(req, res, next) {
+    res.header(
+        "Access-Control-Allow-Headers",
+        "x-access-token, Origin, Content-Type, Accept"
+    );
+    next();
+});
 
-// const sportsRouter = require('./routes/sports')
-// const clubsRouter = require('./routes/clubs')
-// const productsRouter = require('./routes/products')
+app.use((err, req, res, next) => {
+    // This check makes sure this is a JSON parsing issue, but it might be
+    // coming from any middleware, not just body-parser:
 
-
-// app.use("/api/sports", sportsRouter)
-// app.use(clubsRouter)
-// app.use(productsRouter)
-
+    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+        console.error(err);
+        return res.sendStatus(400); // Bad request
+    }
+    next();
+});
 
 app.get('/', (req, res) => {
     res.send('Home page');
 });
 
+
 require("./routes/sports.js")(app);
 require("./routes/clubs.js")(app);
+require("./routes/products.js")(app);
+require('./routes/auth.routes.js')(app);
 
 
 app.all('*', function(req, res) {
@@ -44,22 +53,3 @@ app.use(function(e, req, res, next) {
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-function validateSport(sport) {
-    const schema = {
-        name: Joi.string().required()
-    };
-    return Joi.validate(sport, schema);
-};
-function validateClub(club) {
-    const schema = {
-        name: Joi.string().required(),
-        city: Joi.string().required()
-    };
-    return Joi.validate(club, schema);
-};
-function validateProduct(product) {
-    const schema = {
-        name: Joi.string().required()
-    };
-    return Joi.validate(product, schema);
-};
