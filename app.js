@@ -29,6 +29,7 @@ app.use((err, req, res, next) => {
 });
 
 app.get('/', (req, res) => {
+    console.log(process.version)
     res.send('Home page');
 });
 
