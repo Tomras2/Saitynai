@@ -2,16 +2,17 @@
 
 const mysql = require('mysql');
 
-// const dbConn = mysql.createConnection(
+// const dbConn = mysql.createPool(
 //     {
 //         host : 'localhost',
 //         user : 'root',
 //         password : '',
-//         database : 'sportsdb'
+//         database : 'sportsdb',
+//         connectionLimit : 10
 //     }
 // );
 
-const dbConn = mysql.createConnection(
+const dbConn = mysql.createPool(
     {
         host : 'us-cdbr-east-04.cleardb.com',
         user : 'b3ef48ffac1cd6',
@@ -20,10 +21,10 @@ const dbConn = mysql.createConnection(
     }
 );
 
-dbConn.connect(function(err) {
-    if (err) throw err;
-    console.log("Database Connected");
+// dbConn.connect(function(err) {
+//     if (err) throw err;
+//     console.log("Database Connected");
 
-});
+// });
 
 module.exports = dbConn;
