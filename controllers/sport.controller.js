@@ -17,7 +17,7 @@ Sport.create(sport, (err, data) => {
         message:
         err.message || "Some error occured while creating the sport"
     });
-    else res.send(data);
+    else res.status(201).send(data);
 });
 };
 

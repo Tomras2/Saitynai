@@ -28,7 +28,7 @@ else{
 }
     }
 else
-   res.send(data);
+   res.status(201).send(data);
 });
 };
 
