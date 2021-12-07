@@ -21,6 +21,7 @@ const dbConn = mysql.createPool(
     }
 );
 
+
 // dbConn.connect(function(err) {
 //     if (err) throw err;
 //     console.log("Database Connected");
