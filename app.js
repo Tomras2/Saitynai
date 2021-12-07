@@ -50,6 +50,6 @@ app.use(function(e, req, res, next) {
 });
 
 //PORT
-const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.set('port', (process.env.PORT || 5000));
+app.listen(app.get('port'), () => console.log(`Listening on port ${app.get('port')}`));
 
