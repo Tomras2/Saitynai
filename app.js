@@ -25,6 +25,10 @@ require("dotenv").config();
 app.use(bodyParser.json({
     type: "*/*"
 }));
+app.use(async (req, res, next) => {
+    await next();
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  });
 app.use(function(req, res, next) {
     res.header(
         "Access-Control-Allow-Headers",
