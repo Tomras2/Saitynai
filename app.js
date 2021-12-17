@@ -8,16 +8,16 @@ const cors = require("cors");
 //     origin: "http://localhost:8081"
 //   };
 
-const corsOptions = {
-    origin:'*', 
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS',
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200,
- }
+// const corsOptions = {
+//     origin:'*', 
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS',
+//     credentials:true,            //access-control-allow-credentials:true
+//     optionSuccessStatus:200,
+//  }
   
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
-app.options('*', cors())
+// app.options('*', cors())
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -26,10 +26,29 @@ require("dotenv").config();
 app.use(bodyParser.json({
     type: "*/*"
 }));
-app.use(async (req, res, next) => {
-    await next();
-    res.setHeader('Access-Control-Allow-Origin', '*');
-  });
+// app.use(async (req, res, next) => {
+//     await next();
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//   });
+app.use(express.methodOverride());
+
+// ## CORS middleware
+// 
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.send(200);
+    }
+    else {
+      next();
+    }
+};
+app.use(allowCrossDomain);
+
 app.use(function(req, res, next) {
     res.header(
         "Access-Control-Allow-Headers",
