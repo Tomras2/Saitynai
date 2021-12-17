@@ -9,7 +9,7 @@ const cors = require("cors");
 //   };
 
   const corsOptions = {
-    origin:'*', 
+    origin:'https://sportshopweb.herokuapp.com', 
  }
   
 app.use(cors(corsOptions));
