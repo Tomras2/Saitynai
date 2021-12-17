@@ -2,9 +2,17 @@ const express = require('express');
 const { countReset } = require('console');
 const app = express();
 const bodyParser = require('body-parser');
+const cors = require("cors");
+
+var corsOptions = {
+    origin: "http://localhost:8081"
+  };
+  
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+require("dotenv").config();
 
 app.use(bodyParser.json({
     type: "*/*"
@@ -29,8 +37,7 @@ app.use((err, req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-    console.log(process.version)
-    res.send('Home page');
+    res.send('Welcome');
 });
 
 

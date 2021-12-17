@@ -3,6 +3,17 @@ const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.user;
 
+const {TokenExpiredError} = jwt;
+
+const catchError = (err, res) => {
+    if (err instanceof TokenExpiredError) {
+        msg= "Unauthorized! Access Token was expired!";
+        return res.status(401).send({message: JSON.stringify(msg)})
+    }
+    msg = "Unauthorized!"
+    return res.sendStatus(401).send({ message: JSON.stringify(msg) });
+}
+
 verifyToken = (req, res, next) => {
     let token = req.headers["x-access-token"];
 
@@ -12,12 +23,9 @@ verifyToken = (req, res, next) => {
         });
     }
     
-jwt.verify(token.replace(/['"]+/g, ''), config.secret, (err, decoded) => {
+jwt.verify(token.replace(/['"]+/g, ''), process.env.Access_Token_Secret, (err, decoded) => {
     if (err) {
-        console.log(token)
-        return res.status(401).send({
-            message: "Unauthorized!" + " " + err
-        });
+      return catchError(err, res);
     }
     req.userId = decoded.id;
     next();
@@ -26,7 +34,6 @@ jwt.verify(token.replace(/['"]+/g, ''), config.secret, (err, decoded) => {
 isAdmin = (req, res, next) => {
     User.findRole(req.userId, (err, data) => {
         if (data.role === 3){
-            console.log("YES`")
             next();
             return;
         }
