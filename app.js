@@ -8,10 +8,11 @@ const cors = require("cors");
 //     origin: "http://localhost:8081"
 //   };
 
-  const corsOptions = {
-    origin:'https://sportshopweb.herokuapp.com',
+const corsOptions = {
+    origin:'*', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS',
     credentials:true,            //access-control-allow-credentials:true
-   optionSuccessStatus:200,
+    optionSuccessStatus:200,
  }
   
 app.use(cors(corsOptions));
