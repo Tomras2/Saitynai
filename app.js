@@ -8,9 +8,16 @@ const cors = require("cors");
 //     origin: "http://localhost:8081"
 //   };
 
+// const corsOptions = {
+//     origin:"*", 
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS',
+//  }
+
 const corsOptions = {
-    origin:"*", 
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS',
+    origin:'*', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
  }
   
 app.use(cors(corsOptions));
@@ -24,22 +31,6 @@ require("dotenv").config();
 app.use(bodyParser.json({
     type: "*/*"
 }));
-// app.use(async (req, res, next) => {
-//     await next();
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//   });
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header(
-//       "Access-Control-Allow-Headers",
-//       "Origin, X-Requested-With, Content-Type, Accept, Authorization, 'Content-Type' : 'multipart/form-data' ,* "
-//     );
-//     res.header(
-//       "Access-Control-Allow-Methods",
-//       "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-//     );
-//     next();
-//   });
 
 
 app.use(function(req, res, next) {
@@ -73,14 +64,15 @@ require('./routes/auth.routes.js')(app);
 
 
 app.all('*', function(req, res) {
-    throw new Error("Bad request")
+    //throw new Error("Bad request")
+    res.sendStatus(404);
 })
 
-app.use(function(e, req, res, next) {
-    if (e.message === "Bad request") {
-        res.status(400).json({error: {msg: e.message, stack: e.stack}});
-    }
-});
+// app.use(function(e, req, res, next) {
+//     if (e.message === "Bad request") {
+//         res.status(400).json({error: {msg: e.message, stack: e.stack}});
+//     }
+// });
 
 //PORT
 app.set('port', (process.env.PORT || 5000));

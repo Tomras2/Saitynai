@@ -14,7 +14,7 @@ module.exports = app => {
   });
 
       // Retrieve all clubs
-      router.get("/:id/clubs", clubs.findAll);
+      router.get("/:id/clubs", [authJwt.verifyToken], clubs.findAll);
     
     //   Retrieve a single Club with id
     router.get("/:sid/clubs/:id", [authJwt.verifyToken], clubs.findOne);

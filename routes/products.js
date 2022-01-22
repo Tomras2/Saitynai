@@ -14,7 +14,7 @@ module.exports = app => {
   });
 
     // Retrieve all products
-    router.get("/:sid/clubs/:cid/products", products.findAll);
+    router.get("/:sid/clubs/:cid/products", [authJwt.verifyToken], products.findAll);
     
     //   Retrieve a single Product with id
     router.get("/:sid/clubs/:cid/products/:id", [authJwt.verifyToken], products.findOne);
