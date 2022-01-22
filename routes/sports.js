@@ -5,13 +5,13 @@ const router = express.Router()
 const sports = require("../controllers/sport.controller.js");
 const { authJwt } = require("../middleware");
 
-app.use(function(req, res, next) {
-  res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
-  );
-  next();
-});
+// app.use(function(req, res, next) {
+//   res.header(
+//       "Access-Control-Allow-Headers",
+//       "x-access-token, Origin, Content-Type, Accept"
+//   );
+//   next();
+// });
 
   // Create a new Sport
   router.post("/", [authJwt.verifyToken], [authJwt.isAdmin], sports.create);
