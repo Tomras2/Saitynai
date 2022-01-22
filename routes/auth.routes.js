@@ -1,9 +1,10 @@
+module.exports = app => {
 const { verifySignUp } = require("../middleware");
 const controller = require("../controllers/auth.controller");
 const express = require('express')
 const router = express.Router()
 
-module.exports = function(app) {
+
   
     // app.use(function(req, res, next) {
     //     res.header(
