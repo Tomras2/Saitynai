@@ -15,16 +15,16 @@ const router = express.Router()
     // });
 
     router.post(
-        "/api/auth/signup",
+        "/signup",
         [
           verifySignUp.checkDuplicateUsernameOrEmail,
         ],
         controller.signup
       );
 
-    router.post("/api/auth/signin", controller.signin);
+    router.post("/signin", controller.signin);
 
-    router.post("/api/auth/refreshToken", controller.refreshToken);
+    router.post("/refreshToken", controller.refreshToken);
 
-    app.use("/", router);
+    app.use("/api/auth", router);
 };
